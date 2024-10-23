@@ -10,6 +10,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace Labb_3.Views
@@ -17,7 +18,7 @@ namespace Labb_3.Views
     /// <summary>
     /// Interaction logic for MenuView.xaml
     /// </summary>
-    public partial class MenuView : Window
+    public partial class MenuView : UserControl
     {
         public MenuView()
         {
