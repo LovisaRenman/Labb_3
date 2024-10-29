@@ -1,16 +1,37 @@
-﻿<UserControl x:Class="Labb_3.Views.PlayerView"
+﻿<UserControl x:Class="Labb_3.View.PlayerView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Labb_3.Views"
+             xmlns:local="clr-namespace:Labb_3.View"
+             DataContext="{Binding PlayerViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="2*">
+            </RowDefinition>
         </Grid.RowDefinitions>
+
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button Margin="10"/>
+            <Button Margin="10"
+                    Grid.Column="1"/>
+            <Button Margin="10"
+                    Grid.Row="1"/>
+            <Button Margin="10"
+                    Grid.Row="1"
+                    Grid.Column="1"/>
+        </Grid>
 
         <StackPanel VerticalAlignment="Center"
                     HorizontalAlignment="Center">
@@ -24,5 +45,7 @@
                    HorizontalAlignment="Center"
                    FontSize="25"/>
         </StackPanel>
+
+
     </Grid>
 </UserControl>

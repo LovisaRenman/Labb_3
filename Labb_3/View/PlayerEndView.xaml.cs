@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Labb_3.Views
+namespace Labb_3.View
 {
     /// <summary>
-    /// Interaction logic for ConfigurationView.xaml
+    /// Interaction logic for PlayerEndView.xaml
     /// </summary>
-    public partial class ConfigurationView : UserControl
+    public partial class PlayerEndView : UserControl
     {
-        public ConfigurationView()
+        public PlayerEndView()
         {
             InitializeComponent();
         }
