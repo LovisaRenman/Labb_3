@@ -1,5 +1,7 @@
 ﻿using Labb_3.Model;
+using Labb_3.View;
 using System.Collections.ObjectModel;
+using System.Windows;
 namespace Labb_3.ViewModel
 {
     class MainWindowViewModel : ViewModelBase
@@ -18,7 +20,6 @@ namespace Labb_3.ViewModel
             { 
                 _activePack = value;
                 RaisePropertyChanged("ActivePack");
-                //ConfigurationViewModel.RaisePropertyChanged("ActivePack");
             }
         }
 
@@ -28,7 +29,6 @@ namespace Labb_3.ViewModel
             ConfigurationViewModel = new ConfigurationViewModel(this);
 
             PlayerViewModel = new PlayerViewModel(this);
-
-        }
+        }        
     }
 }

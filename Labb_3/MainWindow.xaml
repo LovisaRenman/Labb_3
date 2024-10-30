@@ -7,13 +7,16 @@
         xmlns:local="clr-namespace:Labb_3" xmlns:view="clr-namespace:Labb_3.View"
         mc:Ignorable="d"
         Title="QuizConfigurator" Height="500" Width="800">
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="Converter"/>
+    </Window.Resources>
     <Window.InputBindings>
         
     </Window.InputBindings>
     
     <Grid>
-        <view:MenuView Visibility="Visible"/>
-        <view:ConfigurationView Visibility="Visible"/>
-        <view:PlayerView Visibility="Hidden"/>
+        <view:MenuView/>
+        <view:ConfigurationView Visibility="{Binding VisibilityModeConfigurationView, Converter={StaticResource Converter}}"/>
+        <view:PlayerView Visibility="{Binding VisibilityModePlayerView, Converter={StaticResource Converter}}"/>
     </Grid>
 </Window>

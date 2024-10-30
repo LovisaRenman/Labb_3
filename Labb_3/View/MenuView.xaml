@@ -3,11 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"             
-             DataContext="{Binding ConfigurationViewModel}"             
+             xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
              xmlns:local="clr-namespace:Labb_3.View"
              mc:Ignorable="d"
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800"
+             Visibility="Visible">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
@@ -44,18 +44,18 @@
                 <MenuItem x:Name="menuItemAddQuestion"
                           Header="_Add Question" 
                           InputGestureText="Insert"
-                          Command="{Binding AddButtonCommand}"
+                          Command="{Binding ConfigurationViewModel.AddButtonCommand}"
                           Icon="{fa:Icon Plus}"/>
                 <MenuItem x:Name="menuItemRemovQuestion"
                           Header="_Remove Question" 
                           InputGestureText="Delete"
-                          Command="{Binding RemoveButtonCommand}"
-                          Icon="{fa:Icon Minus}"/>
+                          Icon="{fa:Icon Minus}"
+                          Command="{Binding ConfigurationViewModel.RemoveButtonCommand}" />
                 <MenuItem x:Name="menuItemPackOptions"
                           Header="_Pack Options"
                           InputGestureText="Ctrl+O"
                           Icon="{fa:Icon Sliders}"
-                          Command="{Binding OptionsButtonOpen}"/>
+                          Command="{Binding ConfigurationViewModel.OptionsButtonOpen}"/>
             </MenuItem>
 
             <MenuItem x:Name="menuItemView"
@@ -63,11 +63,13 @@
                 <MenuItem x:Name="menuItemPlay"
                           Header="Play" 
                           InputGestureText="Ctrl+P"
-                          Icon="{fa:Icon play}"/>
+                          Icon="{fa:Icon Play}"
+                          Command="{Binding PlayerViewModel.StartPlayModeCommand}"/>
                 <MenuItem x:Name="menuItemViewEdit"
                           Header="Edit" 
                           InputGestureText="Ctrl+E"
-                          Icon="{fa:Icon Gears}"/>
+                          Icon="{fa:Icon Gears}"
+                          Command="{Binding ConfigurationViewModel.StartEditModeCommand}"/>
                 <Separator/>
                 <MenuItem x:Name="menuItemFullscreen"
                           Header="Fullscreen"

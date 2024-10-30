@@ -7,8 +7,9 @@
              xmlns:local="clr-namespace:Labb_3.View"
              xmlns:converters="clr-namespace:Labb_3.Converters"
              DataContext="{Binding ConfigurationViewModel}"
-             mc:Ignorable="d" 
+             mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
+    
     <UserControl.Resources>
         <converters:BoolToVisibility x:Key="BoolToVisibility"/>
     </UserControl.Resources>
@@ -27,7 +28,7 @@
         </Grid.RowDefinitions>
 
         <Label x:Name="labelQuestionPack"
-               Content="{Binding ActivePack.Name}"
+               Content="{Binding ActivePack.Name, UpdateSourceTrigger=PropertyChanged}"
                FontWeight="Bold"
                Grid.Row="1"
                VerticalAlignment="Bottom"

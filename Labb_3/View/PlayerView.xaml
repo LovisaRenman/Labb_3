@@ -6,13 +6,22 @@
              xmlns:local="clr-namespace:Labb_3.View"
              DataContext="{Binding PlayerViewModel}"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800"
+             >
+    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="2*">
             </RowDefinition>
         </Grid.RowDefinitions>
+
+        <Label VerticalAlignment="Bottom"
+               HorizontalAlignment="Right"
+               FontSize="30"
+               FontWeight="Bold"
+               Margin="10"
+               Content="{Binding TimerTick}"/>
 
         <Grid Grid.Row="1">
             <Grid.RowDefinitions>
@@ -23,19 +32,27 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Button Margin="10"/>
-            <Button Margin="10"
-                    Grid.Column="1"/>
-            <Button Margin="10"
-                    Grid.Row="1"/>
-            <Button Margin="10"
+            <Button Margin="20"
+                    Content="{Binding AnswerOrderByRandom[0]}"
+                    Command="{Binding ClickButtonCommand0}"/>
+            <Button Margin="20"
+                    Grid.Column="1"
+                    Content="{Binding AnswerOrderByRandom[1]}"
+                    Command="{Binding ClickButtonCommand1}"/>
+            <Button Margin="20"
                     Grid.Row="1"
-                    Grid.Column="1"/>
+                    Content="{Binding AnswerOrderByRandom[2]}"
+                    Command="{Binding ClickButtonCommand2}"/>
+            <Button Margin="20"
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Content="{Binding AnswerOrderByRandom[3]}"
+                    Command="{Binding ClickButtonCommand3}"/>
         </Grid>
 
         <StackPanel VerticalAlignment="Center"
                     HorizontalAlignment="Center">
-            <Label Content="Exempel Question"
+            <Label Content="{Binding Query}"
                    FontSize="40"
                    FontWeight="Bold"
                    Margin="10"/>
