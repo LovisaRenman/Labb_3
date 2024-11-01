@@ -26,17 +26,7 @@ namespace Labb_3.ViewModel
                 RaisePropertyChanged("VisibilityModeConfigurationView");
             }
         }
-
-        public bool VisibilityModePlayerView
-        {
-            get => mainWindowViewModel.PlayerViewModel.VisibilityModePlayerView;
-            set
-            {
-                mainWindowViewModel.PlayerViewModel.VisibilityModePlayerView = value;
-                RaisePropertyChanged();
-                mainWindowViewModel.PlayerViewModel.RaisePropertyChanged("VisibilityModePlayerView");
-            }
-        }
+       
 
         public ConfigurationViewModel(MainWindowViewModel? mainWindowViewModel)
         {
@@ -60,8 +50,10 @@ namespace Labb_3.ViewModel
 
         private void StartEditMode(object obj)
         {
-            VisibilityModePlayerView = false;
-            mainWindowViewModel.RaisePropertyChanged("VisibilityModePlayerView");
+            mainWindowViewModel.PlayerViewModel.VisibilityModePlayerView = false;
+            RaisePropertyChanged("VisibilityModePlayerView");
+            mainWindowViewModel.PlayerViewModel.VisibilityModePlayerEndView = false;
+            RaisePropertyChanged("VisibilityModePlayerEndView");
 
             VisibilityModeConfigurationView = true;
             RaisePropertyChanged("VisibilityModeConfigurationView");
@@ -85,7 +77,8 @@ namespace Labb_3.ViewModel
 
         private void RemoveButton(object obj)
         {
-            ActivePack.Questions.Remove(ActiveQuestion);         
+            ActivePack.Questions.Remove(ActiveQuestion);  
+            mainWindowViewModel.PlayerViewModel.StartPlayModeCommand.RaiseCanExecuteChanged();
         }
 
         private void AddButton(object obj)
@@ -93,10 +86,10 @@ namespace Labb_3.ViewModel
             ActivePack.Questions.Add(new Question(string.Empty, string.Empty, string.Empty, string.Empty, string.Empty));
 
             AddButtonCommand.RaiseCanExecuteChanged();
+            mainWindowViewModel.PlayerViewModel.StartPlayModeCommand.RaiseCanExecuteChanged();
         }
 
         private Question? _activeQuestion;
-
         public Question? ActiveQuestion
         {
             get => _activeQuestion; 
@@ -108,7 +101,6 @@ namespace Labb_3.ViewModel
                 RemoveButtonCommand.RaiseCanExecuteChanged();
             }
         }
-
         public bool IsEnabled
         {
             get => ActiveQuestion is not null;            

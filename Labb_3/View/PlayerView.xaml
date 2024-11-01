@@ -4,10 +4,13 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Labb_3.View"
+             xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"             
              DataContext="{Binding PlayerViewModel}"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800"
-             >
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="Converter"/>
+    </UserControl.Resources>
     
     <Grid>
         <Grid.RowDefinitions>
@@ -56,13 +59,60 @@
                    FontSize="40"
                    FontWeight="Bold"
                    Margin="10"/>
-            <Label Content="x/x" 
+            <Label Content="{Binding ProgressionOfQuestions}" 
                    HorizontalContentAlignment="Right" 
                    VerticalAlignment="Center" 
                    HorizontalAlignment="Center"
                    FontSize="25"/>
         </StackPanel>
 
+        <Label Visibility="{Binding Checkmark0, Converter={StaticResource Converter}}"
+               VerticalAlignment="Top"
+               HorizontalAlignment="Center"
+               FontSize="25"
+               Grid.Row="1"
+               Margin="0 20 70 0">
+            <Label.Content>
+                <fa:IconBlock Icon ="Check"
+                              Foreground="ForestGreen"/>
+            </Label.Content>
+        </Label>
+
+        <Label Visibility="{Binding Checkmark2, Converter={StaticResource Converter}}"
+               VerticalAlignment="Top"
+               HorizontalAlignment="Center"
+               FontSize="25"
+               Grid.Row="1"
+               Margin="0 170 70 0">
+            <Label.Content>
+                <fa:IconBlock Icon ="Check"
+                      Foreground="ForestGreen"/>
+            </Label.Content>
+        </Label>
+
+        <Label Visibility="{Binding Checkmark1, Converter={StaticResource Converter}}"
+               VerticalAlignment="Top"
+               HorizontalAlignment="Right"
+               FontSize="25"
+               Grid.Row="1"
+               Margin="0 20 20 0">
+            <Label.Content>
+                <fa:IconBlock Icon ="Check"
+                              Foreground="ForestGreen"/>
+            </Label.Content>
+        </Label>
+
+        <Label Visibility="{Binding Checkmark3, Converter={StaticResource Converter}}"
+               VerticalAlignment="Top"
+               HorizontalAlignment="Right"
+               FontSize="25"
+               Grid.Row="1"
+               Margin="0 170 20 0">
+            <Label.Content>
+                <fa:IconBlock Icon ="Check"
+                              Foreground="ForestGreen"/>
+            </Label.Content>
+        </Label>
 
     </Grid>
 </UserControl>

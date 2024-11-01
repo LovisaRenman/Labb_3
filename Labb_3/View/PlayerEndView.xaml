@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"                          
+             DataContext="{Binding PlayerViewModel}"
              xmlns:local="clr-namespace:Labb_3.View"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
@@ -11,12 +12,15 @@
         <StackPanel VerticalAlignment="Center"
                     HorizontalAlignment="Center">
             <Label Content="Complete!" 
-                   FontSize="50"/>
-            <Label Content="You completed the game example" />
-            <Button
-                    HorizontalAlignment="Center"
+                   FontSize="50"
+                   HorizontalAlignment="Center"/>
+            <Label Content="You completed the game example"
+                   HorizontalAlignment="Center"
+                   FontSize="20"/>
+            <Button HorizontalAlignment="Center"
                     Padding="5"
-                    Margin="10">
+                    Margin="10"
+                    Command="{Binding StartPlayModeCommand}">
                 <!--Ask how to also have text-->
                 <Button.Content>
                     <fa:IconBlock Icon="ArrowsRotate"/>

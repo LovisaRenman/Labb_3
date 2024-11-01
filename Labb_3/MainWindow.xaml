@@ -18,5 +18,6 @@
         <view:MenuView/>
         <view:ConfigurationView Visibility="{Binding VisibilityModeConfigurationView, Converter={StaticResource Converter}}"/>
         <view:PlayerView Visibility="{Binding VisibilityModePlayerView, Converter={StaticResource Converter}}"/>
+        <view:PlayerEndView Visibility="{Binding VisibilityModePlayerEndView, Converter={StaticResource Converter}}"/>
     </Grid>
 </Window>
