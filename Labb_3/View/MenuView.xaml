@@ -20,13 +20,26 @@
                       Header="_File" >
                 <MenuItem x:Name="menuItemNewQuestionPack"
                           Header="New Question Pack"
-                          Icon="{fa:Icon FolderPlus}"/>
+                          Icon="{fa:Icon FolderPlus}"
+                          Command="{Binding NewQuestionPackCommand}"/>
                 <MenuItem x:Name="menuItemSelectQuestionPack"
                           Header="Select Question Pack"
-                          Icon="{fa:Icon FolderOpen}"/>
+                          Icon="{fa:Icon FolderOpen}">
+                    <MenuItem.ItemsSource>
+                        <Binding Path="Packs"/>
+                    </MenuItem.ItemsSource>
+                    <MenuItem.ItemContainerStyle>
+                        <Style TargetType="MenuItem">
+                            <Setter Property="Header" Value="{Binding Name}" />
+                            <Setter Property="Command" Value="{Binding DataContext.SetActivePackCommand, RelativeSource={RelativeSource AncestorType=Window}}" />
+                            <Setter Property="CommandParameter" Value="{Binding}" />
+                        </Style>
+                    </MenuItem.ItemContainerStyle>
+                </MenuItem>
                 <MenuItem x:Name="menuItemDeleteQuestionPack" 
                           Header="Delete Question Pack"
-                          Icon="{fa:Icon FolderMinus}"/>
+                          Icon="{fa:Icon FolderMinus}"
+                          Command="{Binding RemoveQuestionPackCommand}"/>
                 <Separator/>
                 <MenuItem x:Name="menuItemImportQuestions"
                           Header="Import Questions" 
@@ -55,13 +68,13 @@
                           Header="_Pack Options"
                           InputGestureText="Ctrl+O"
                           Icon="{fa:Icon Sliders}"
-                          Command="{Binding ConfigurationViewModel.OptionsButtonOpen}"/>
+                          Command="{Binding ConfigurationViewModel.BtnOptionsOpenCommand}"/>
             </MenuItem>
 
             <MenuItem x:Name="menuItemView"
                       Header="_View">
                 <MenuItem x:Name="menuItemPlay"
-                          Header="Play" 
+                          Header="Play"
                           InputGestureText="Ctrl+P"
                           Icon="{fa:Icon Play}"
                           Command="{Binding PlayerViewModel.StartPlayModeCommand}"/>
@@ -74,7 +87,8 @@
                 <MenuItem x:Name="menuItemFullscreen"
                           Header="Fullscreen"
                           InputGestureText="Alt+Enter"
-                          Icon="{fa:Icon Expand}"/>
+                          Icon="{fa:Icon Expand}"
+                          Command="{Binding FullscreenCommand}"/>
             </MenuItem>
         </Menu>
     </Grid>

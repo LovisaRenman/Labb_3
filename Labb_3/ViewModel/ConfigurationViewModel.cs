@@ -10,7 +10,7 @@ namespace Labb_3.ViewModel
         private readonly MainWindowViewModel? mainWindowViewModel;
         public DelegateCommand AddButtonCommand { get; }
         public DelegateCommand RemoveButtonCommand { get; }
-        public DelegateCommand OptionsButtonOpen { get; }
+        public DelegateCommand BtnOptionsOpenCommand { get; }
         public DelegateCommand StartEditModeCommand { get; }
 
         public QuestionPackViewModel? ActivePack => mainWindowViewModel.ActivePack;
@@ -33,12 +33,19 @@ namespace Labb_3.ViewModel
             this.mainWindowViewModel = mainWindowViewModel;
             VisibilityModeConfigurationView = true;
 
-            AddButtonCommand = new DelegateCommand(AddButton);
+            AddButtonCommand = new DelegateCommand(AddButton, ButtonActive);
             RemoveButtonCommand = new DelegateCommand(RemoveButton, RemoveButtonActive);
-            OptionsButtonOpen = new DelegateCommand(Optionsbutton);
+            BtnOptionsOpenCommand = new DelegateCommand(Optionsbutton, ButtonActive);
             StartEditModeCommand = new DelegateCommand(StartEditMode, StartEditModeActive);
 
             ActiveQuestion = ActivePack.Questions.FirstOrDefault();
+        }
+
+        private bool ButtonActive(object? arg)
+        {
+            if (mainWindowViewModel.PlayerViewModel.VisibilityModePlayerView) return false;
+            else if (mainWindowViewModel.PlayerViewModel.VisibilityModePlayerEndView) return false;
+            else return true;
         }
 
         private bool StartEditModeActive(object? arg)
@@ -50,6 +57,11 @@ namespace Labb_3.ViewModel
 
         private void StartEditMode(object obj)
         {
+            AddButtonCommand.RaiseCanExecuteChanged();
+            RemoveButtonCommand.RaiseCanExecuteChanged();
+            BtnOptionsOpenCommand.RaiseCanExecuteChanged();
+            mainWindowViewModel.PlayerViewModel.Timer.Stop();
+
             mainWindowViewModel.PlayerViewModel.VisibilityModePlayerView = false;
             RaisePropertyChanged("VisibilityModePlayerView");
             mainWindowViewModel.PlayerViewModel.VisibilityModePlayerEndView = false;
@@ -59,20 +71,22 @@ namespace Labb_3.ViewModel
             RaisePropertyChanged("VisibilityModeConfigurationView");
 
             mainWindowViewModel.PlayerViewModel.StartPlayModeCommand.RaiseCanExecuteChanged();
-            StartEditModeCommand.RaiseCanExecuteChanged();
+            StartEditModeCommand.RaiseCanExecuteChanged();            
         }
 
         private void Optionsbutton(object obj)
         {
-            var dialog = new PackOptionsDialog();
+            PackOptionsDialog dialog = new PackOptionsDialog();
             dialog.DataContext = mainWindowViewModel;
             dialog.ShowDialog();
         }
 
         private bool RemoveButtonActive(object? arg)
         {
-            if (ActiveQuestion != null) return true;
-            else return false;           
+            if (mainWindowViewModel.PlayerViewModel.VisibilityModePlayerView) return false;
+            else if (mainWindowViewModel.PlayerViewModel.VisibilityModePlayerEndView) return false;
+            else if (ActiveQuestion != null) return true;
+            else return false;
         }
 
         private void RemoveButton(object obj)
@@ -103,7 +117,7 @@ namespace Labb_3.ViewModel
         }
         public bool IsEnabled
         {
-            get => ActiveQuestion is not null;            
+            get => ActiveQuestion is not null;
         }
     }
 }

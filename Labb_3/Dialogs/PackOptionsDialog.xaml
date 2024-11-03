@@ -6,12 +6,11 @@
         DataContext="{Binding ConfigurationViewModel}"
         xmlns:local="clr-namespace:Labb_3.Dialogs" xmlns:converters="clr-namespace:Labb_3.Converters"
         mc:Ignorable="d"
-        Title="PackOptions" Height="250" Width="200" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+        Title="Pack Options" Height="250" Width="200" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <converters:IntToDifficulty x:Key="intToDifficulty"/>
     </Window.Resources>
-    
-    
+
     <Grid>
 
         <Grid.RowDefinitions>
@@ -41,7 +40,7 @@
                       ToolTip="Select your difficulty"
                       Margin="10 0 10 10">
                 <ComboBoxItem Content="Easy"/>
-                <ComboBoxItem Content="Madium"/>
+                <ComboBoxItem Content="Medium"/>
                 <ComboBoxItem Content="Hard"/>
             </ComboBox>
             <Label Content="Time Limit"

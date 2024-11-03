@@ -2,25 +2,29 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Labb_3.Dialogs"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"      
+        xmlns:local="clr-namespace:Labb_3.Dialogs" xmlns:converters="clr-namespace:Labb_3.Converters"
         mc:Ignorable="d"
-        Title="New Question Pack" Height="250" Width="200" ResizeMode="NoResize">
+        Title="New Question Pack" Height="300" Width="220" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <converters:IntToDifficulty x:Key="intToDifficulty"/>
+    </Window.Resources>
+    
     <Grid>
         <StackPanel>
             <Label Content="Pack Name"
            FontWeight="Bold"
            Margin=" 10 10 10 0"/>
-            <TextBox Text="Default Question Pack"
+            <TextBox Text="{Binding NewQuestionPack.Name, Mode=TwoWay}"
              Margin="10 0 10 10"/>
             <Label Content="Difficulty"
            FontWeight="Bold"
            Margin="10 10 10 0"/>
-            <ComboBox SelectedIndex="1"
+            <ComboBox SelectedIndex="{Binding NewQuestionPack.Difficulty, Mode=TwoWay, Converter={StaticResource intToDifficulty}}"
               ToolTip="Select your difficulty"
               Margin="10 0 10 10">
                 <ComboBoxItem Content="Easy"/>
-                <ComboBoxItem Content="Madium"/>
+                <ComboBoxItem Content="Medium"/>
                 <ComboBoxItem Content="Hard"/>
             </ComboBox>
             <WrapPanel Orientation="Horizontal"
@@ -32,18 +36,21 @@
                 <Label Content="seconds"/>
             </WrapPanel>
             <Slider x:Name="timeLimitSlider"
-            Minimum="5"
-            Maximum="120"
-            TickFrequency="10"
-            TickPlacement="BottomRight"
-            Margin="10 0 10 0"/>
+                    Minimum="5"
+                    Maximum="120"
+                    TickFrequency="1"
+                    IsSnapToTickEnabled="True"
+                    Margin="10 0 10 0"
+                    Value="{Binding NewQuestionPack.TimeLimitInSeconds, Mode=TwoWay}"/>
 
             <StackPanel HorizontalAlignment="Center"
                         Orientation="Horizontal">
                 <Button Content="Cancel" 
-                        Margin="10"/>
+                        Margin="10"
+                        Command="{Binding NewQuestionPackCancelCommand}"/>
                 <Button Content="Create" 
-                        Margin="10"/>
+                        Margin="10"
+                        Command="{Binding NewQuestionPackCreateCommand}"/>
             </StackPanel>
         </StackPanel>
     </Grid>

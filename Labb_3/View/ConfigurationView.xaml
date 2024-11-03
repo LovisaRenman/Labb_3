@@ -42,7 +42,7 @@
             <Button x:Name="buttonOptions"
                     Width="20"
                     Height="20"
-                    Command="{Binding OptionsButtonOpen}">
+                    Command="{Binding BtnOptionsOpenCommand}">
                 <Button.Content>
                     <fa:IconBlock Icon="Sliders"/>
                 </Button.Content>

@@ -55,10 +55,13 @@
 
         <StackPanel VerticalAlignment="Center"
                     HorizontalAlignment="Center">
-            <Label Content="{Binding Query}"
-                   FontSize="40"
-                   FontWeight="Bold"
-                   Margin="10"/>
+            <TextBlock FontSize="40"
+                       FontWeight="Bold"
+                       Text="{Binding Query}"
+                       Margin="10"
+                       HorizontalAlignment="Center"
+                       TextWrapping="WrapWithOverflow"
+                       TextAlignment="Center"/>
             <Label Content="{Binding ProgressionOfQuestions}" 
                    HorizontalContentAlignment="Right" 
                    VerticalAlignment="Center" 
@@ -69,7 +72,7 @@
         <Label Visibility="{Binding Checkmark0, Converter={StaticResource Converter}}"
                VerticalAlignment="Top"
                HorizontalAlignment="Center"
-               FontSize="25"
+               FontSize="35"
                Grid.Row="1"
                Margin="0 20 70 0">
             <Label.Content>
@@ -81,7 +84,7 @@
         <Label Visibility="{Binding Checkmark2, Converter={StaticResource Converter}}"
                VerticalAlignment="Top"
                HorizontalAlignment="Center"
-               FontSize="25"
+               FontSize="35"
                Grid.Row="1"
                Margin="0 170 70 0">
             <Label.Content>
@@ -93,7 +96,7 @@
         <Label Visibility="{Binding Checkmark1, Converter={StaticResource Converter}}"
                VerticalAlignment="Top"
                HorizontalAlignment="Right"
-               FontSize="25"
+               FontSize="35"
                Grid.Row="1"
                Margin="0 20 20 0">
             <Label.Content>
@@ -105,12 +108,60 @@
         <Label Visibility="{Binding Checkmark3, Converter={StaticResource Converter}}"
                VerticalAlignment="Top"
                HorizontalAlignment="Right"
-               FontSize="25"
+               FontSize="35"
                Grid.Row="1"
                Margin="0 170 20 0">
             <Label.Content>
                 <fa:IconBlock Icon ="Check"
                               Foreground="ForestGreen"/>
+            </Label.Content>
+        </Label>
+
+        <Label Visibility="{Binding Xmark0, Converter={StaticResource Converter}}"
+       VerticalAlignment="Top"
+       HorizontalAlignment="Center"
+       FontSize="35"
+       Grid.Row="1"
+       Margin="0 20 70 0">
+            <Label.Content>
+                <fa:IconBlock Icon ="Xmark"
+                      Foreground="DarkRed"/>
+            </Label.Content>
+        </Label>
+
+        <Label Visibility="{Binding Xmark2, Converter={StaticResource Converter}}"
+       VerticalAlignment="Top"
+       HorizontalAlignment="Center"
+       FontSize="35"
+       Grid.Row="1"
+       Margin="0 170 70 0">
+            <Label.Content>
+                <fa:IconBlock Icon ="Xmark"
+              Foreground="DarkRed"/>
+            </Label.Content>
+        </Label>
+
+        <Label Visibility="{Binding Xmark1, Converter={StaticResource Converter}}"
+       VerticalAlignment="Top"
+       HorizontalAlignment="Right"
+       FontSize="35"
+       Grid.Row="1"
+       Margin="0 20 20 0">
+            <Label.Content>
+                <fa:IconBlock Icon ="Xmark"
+                      Foreground="DarkRed"/>
+            </Label.Content>
+        </Label>
+
+        <Label Visibility="{Binding Xmark3, Converter={StaticResource Converter}}"
+       VerticalAlignment="Top"
+       HorizontalAlignment="Right"
+       FontSize="35"
+       Grid.Row="1"
+       Margin="0 170 20 0">
+            <Label.Content>
+                <fa:IconBlock Icon ="xMark"
+                      Foreground="DarkRed"/>
             </Label.Content>
         </Label>
 

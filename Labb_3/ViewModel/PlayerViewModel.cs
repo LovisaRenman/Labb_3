@@ -1,5 +1,6 @@
 ﻿using Labb_3.Command;
 using Labb_3.Model;
+using System.Diagnostics;
 using System.Windows.Threading;
 
 namespace Labb_3.ViewModel
@@ -39,13 +40,13 @@ namespace Labb_3.ViewModel
         public DelegateCommand ClickButtonCommand2 { get; }
         public DelegateCommand ClickButtonCommand3 { get; }
 
-
+        public int CorrectAnswers { get; set; }
         public int CurrentQuestionIndex { get; set; }
         public int QuestionsCount { get; set; }
 
-        private DispatcherTimer timer;
+        public DispatcherTimer Timer;
+        
         private int timerTick;
-
         public int TimerTick
         {
             get => timerTick; 
@@ -60,22 +61,70 @@ namespace Labb_3.ViewModel
             this.mainWindowViewModel = mainWindowViewModel;
             VisibilityModePlayerView = false;
             VisibilityModePlayerEndView = false;
+            CorrectAnswers = 0;
 
             StartPlayModeCommand = new DelegateCommand(StartPlayMode, StartPlayModeActive);
 
-            ClickButtonCommand0 = new DelegateCommand(ClickAnswer);
-            ClickButtonCommand1 = new DelegateCommand(ClickAnswer);
-            ClickButtonCommand2 = new DelegateCommand(ClickAnswer);
-            ClickButtonCommand3 = new DelegateCommand(ClickAnswer);
+            ClickButtonCommand0 = new DelegateCommand(ClickAnswer0);
+            ClickButtonCommand1 = new DelegateCommand(ClickAnswer1);
+            ClickButtonCommand2 = new DelegateCommand(ClickAnswer2);
+            ClickButtonCommand3 = new DelegateCommand(ClickAnswer3);
         }
 
-        private void ClickAnswer(object obj)
+        private async void ClickAnswer3(object obj)
         {
-            
+            Timer.Stop();
+            IndexOfCorrectAnswer = AnswerOrderByRandom.IndexOf(correctAnswer);
+            if (IndexOfCorrectAnswer != 3) Xmark3 = true;
+            else CorrectAnswers++;
+            await MarkCorrectAnswerTask();
+
+            Xmark3 = false;
+            ShowNextQuestion(QuestionsCount);
+        }
+
+        private async void ClickAnswer2(object obj)
+        {
+            IndexOfCorrectAnswer = AnswerOrderByRandom.IndexOf(correctAnswer);
+            Timer.Stop();
+            if (IndexOfCorrectAnswer != 2) Xmark2 = true;
+            else CorrectAnswers++;
+            await MarkCorrectAnswerTask();
+
+            Xmark2 = false;
+            ShowNextQuestion(QuestionsCount);
+        }
+
+        private async void ClickAnswer1(object obj)
+        {
+            IndexOfCorrectAnswer = AnswerOrderByRandom.IndexOf(correctAnswer);
+            Timer.Stop();
+            if (IndexOfCorrectAnswer != 1) Xmark1 = true;
+            else CorrectAnswers++;
+            await MarkCorrectAnswerTask();
+
+            Xmark1 = false;
+            ShowNextQuestion(QuestionsCount);
+        }
+
+        private async void ClickAnswer0(object obj)
+        {
+            IndexOfCorrectAnswer = AnswerOrderByRandom.IndexOf(correctAnswer);
+            Timer.Stop();
+            if (IndexOfCorrectAnswer != 0) Xmark0 = true;
+            else CorrectAnswers++;
+            await MarkCorrectAnswerTask();
+
+            Xmark0 = false;
+            ShowNextQuestion(QuestionsCount);
         }
 
         private void StartPlayMode(object obj)
         {
+            mainWindowViewModel.ConfigurationViewModel.AddButtonCommand.RaiseCanExecuteChanged();
+            mainWindowViewModel.ConfigurationViewModel.RemoveButtonCommand.RaiseCanExecuteChanged();
+            mainWindowViewModel.ConfigurationViewModel.BtnOptionsOpenCommand.RaiseCanExecuteChanged();
+
             StartPlayModeCommand.RaiseCanExecuteChanged();
             mainWindowViewModel.ConfigurationViewModel.StartEditModeCommand.RaiseCanExecuteChanged();
 
@@ -84,10 +133,11 @@ namespace Labb_3.ViewModel
             mainWindowViewModel.ConfigurationViewModel.VisibilityModeConfigurationView = false;
             mainWindowViewModel.RaisePropertyChanged("VisibilityModeConfigurationView");
             CheckMarksInvisible();
+            XmarksInvisible();
             
-            timer = new DispatcherTimer();
-            timer.Interval = TimeSpan.FromSeconds(1);
-            timer.Tick += Timer_Tick;
+            Timer = new DispatcherTimer();
+            Timer.Interval = TimeSpan.FromSeconds(1);
+            Timer.Tick += Timer_Tick;
             
             VisibilityModePlayerView = true;
             RaisePropertyChanged("VisibilityModePlayerView");
@@ -127,7 +177,7 @@ namespace Labb_3.ViewModel
             AnswerOrderByRandom = tempList.OrderBy(a => rnd.Next()).ToList();
 
             TimerTick = ActivePack.TimeLimitInSeconds;
-            timer.Start();
+            Timer.Start();
         }
 
         private async void Timer_Tick(object sender, EventArgs e)
@@ -136,8 +186,8 @@ namespace Labb_3.ViewModel
 
             if (TimerTick == 0)
             {
-                timer.Stop();
-                await MarkCorrectAnswerAsync();
+                Timer.Stop();
+                await MarkCorrectAnswerTask();
                 ShowNextQuestion(QuestionsCount);
             }
         }
@@ -145,36 +195,20 @@ namespace Labb_3.ViewModel
         private void EndOfQuestions()
         {
             VisibilityModePlayerView = false;
-            RaisePropertyChanged("VisibilityModePlayerView");
+
+            AmountOfCorrectAnswers = $"You got {CorrectAnswers} answer correct out of {ActivePack.Questions.Count()} questions";
 
             VisibilityModePlayerEndView = true;
-            RaisePropertyChanged("VisibilityModePlayerEndView");
         }
 
-        private async Task MarkCorrectAnswerAsync()
+        private async Task MarkCorrectAnswerTask()
         {
-            int IndexOfCorrectAnswer = AnswerOrderByRandom.IndexOf(correctAnswer);
+            IndexOfCorrectAnswer = AnswerOrderByRandom.IndexOf(correctAnswer);
 
-            if (IndexOfCorrectAnswer == 0) 
-            {
-                Checkmark0 = true;
-                RaisePropertyChanged("CheckMark0");
-            } 
-            else if (IndexOfCorrectAnswer == 1) 
-            {
-                Checkmark1 = true;
-                RaisePropertyChanged("CheckMark1");
-            }                            
-            else if (IndexOfCorrectAnswer == 2)
-            {
-                Checkmark2 = true;
-                RaisePropertyChanged("Checkmark2");
-            }
-            else if (IndexOfCorrectAnswer == 3)
-            {
-                Checkmark3 = true;
-                RaisePropertyChanged("Checkmark3");
-            }
+            if (IndexOfCorrectAnswer == 0) Checkmark0 = true;
+            else if (IndexOfCorrectAnswer == 1) Checkmark1 = true;                           
+            else if (IndexOfCorrectAnswer == 2) Checkmark2 = true;
+            else if (IndexOfCorrectAnswer == 3) Checkmark3 = true;
             await Task.Delay(2000);
             CheckMarksInvisible();
         }
@@ -192,10 +226,14 @@ namespace Labb_3.ViewModel
             Checkmark1 = false;
             Checkmark2 = false;
             Checkmark3 = false;
-            RaisePropertyChanged("Checkmark0");
-            RaisePropertyChanged("Checkmark1");
-            RaisePropertyChanged("Checkmark2");
-            RaisePropertyChanged("Checkmark3");
+        }
+
+        private void XmarksInvisible()
+        {
+            Xmark0 = false;
+            Xmark1 = false;
+            Xmark2 = false;
+            Xmark3 = false;
         }
 
         private List<string> _answerOrderByRandom;
@@ -227,6 +265,18 @@ namespace Labb_3.ViewModel
             set 
             {
                 _progressionOfQuestions = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private string _amountOfCorrectAnswers;
+
+        public string AmountOfCorrectAnswers
+        {
+            get => _amountOfCorrectAnswers; 
+            set 
+            {
+                _amountOfCorrectAnswers = value;
                 RaisePropertyChanged();
             }
         }
@@ -277,6 +327,49 @@ namespace Labb_3.ViewModel
             }
         }
 
+        private bool _xmark0;
+        public bool Xmark0
+        {
+            get => _xmark0;
+            set 
+            {
+                _xmark0 = value;
+                RaisePropertyChanged("Xmark0");
+            }
+        }
 
+        private bool _xmark1;
+        public bool Xmark1
+        {
+            get => _xmark1;
+            set
+            {
+                _xmark1 = value;
+                RaisePropertyChanged("Xmark1");
+            }
+        }
+
+        private bool _xmark2;
+        public bool Xmark2
+        {
+            get => _xmark2;
+            set
+            {
+                _xmark2 = value;
+                RaisePropertyChanged("Xmark2");
+            }
+        }
+
+        private bool _xmark3;
+        public bool Xmark3
+        {
+            get => _xmark3;
+            set
+            {
+                _xmark3 = value;
+                RaisePropertyChanged("Xmark3");
+            }
+        }
+        public int IndexOfCorrectAnswer { get; set; }
     }
 }

@@ -14,16 +14,18 @@
             <Label Content="Complete!" 
                    FontSize="50"
                    HorizontalAlignment="Center"/>
-            <Label Content="You completed the game example"
+            <Label Content="{Binding AmountOfCorrectAnswers}"
                    HorizontalAlignment="Center"
                    FontSize="20"/>
             <Button HorizontalAlignment="Center"
                     Padding="5"
                     Margin="10"
                     Command="{Binding StartPlayModeCommand}">
-                <!--Ask how to also have text-->
                 <Button.Content>
-                    <fa:IconBlock Icon="ArrowsRotate"/>
+                    <StackPanel Orientation="Horizontal">
+                        <fa:IconBlock Icon="ArrowsRotate"/>
+                        <TextBlock Text=" Restart" />
+                    </StackPanel>
                 </Button.Content>
             </Button>
         </StackPanel>
