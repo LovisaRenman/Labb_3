@@ -2,7 +2,10 @@
 using Labb_3.Dialogs;
 using Labb_3.Model;
 using System.Collections.ObjectModel;
+using System.IO;
+using System.Text.Json;
 using System.Windows;
+
 namespace Labb_3.ViewModel
 {
     class MainWindowViewModel : ViewModelBase
@@ -11,12 +14,16 @@ namespace Labb_3.ViewModel
 
         public CreateNewPackDialog CreatePackDialog { get; set; }
         public PlayerViewModel PlayerViewModel { get; }
+        public APIViewModel APIViewModel { get; }
         public DelegateCommand NewQuestionPackCommand { get; }
-        public DelegateCommand NewQuestionPackCreateCommand { get; }
-        public DelegateCommand NewQuestionPackCancelCommand { get; }
+        public DelegateCommand BtnCreateCommand { get; }
+        public DelegateCommand BtnCancelCommand { get; }
         public DelegateCommand SetActivePackCommand { get; }
         public DelegateCommand RemoveQuestionPackCommand { get; }
         public DelegateCommand FullscreenCommand { get; }
+        public DelegateCommand ExitCommand { get; }
+        public DelegateCommand ImportQuestionsCommand { get; }
+        public DelegateCommand SaveJsonCommand { get; }
         public ConfigurationViewModel ConfigurationViewModel { get; }
 
         private QuestionPackViewModel? _activePack;
@@ -43,8 +50,12 @@ namespace Labb_3.ViewModel
             }
         }
 
-        private WindowState _windowState;
-        public WindowState IsWindowNormal
+        public IDialogService _createNewPackDialog = new CreateNewPackDialogService();
+        public IDialogService _importQuestionsDialog ;
+
+        private bool _windowState;
+
+        public bool IsWindowNormal
         {
             get => _windowState; 
             set 
@@ -56,27 +67,107 @@ namespace Labb_3.ViewModel
 
         public MainWindowViewModel()
         {
-            ActivePack = new QuestionPackViewModel(new QuestionPack("Default Question Pack"));
-            Packs = new ObservableCollection<QuestionPackViewModel>();
-            Packs.Add(ActivePack);
+            StartPacks();
 
             ConfigurationViewModel = new ConfigurationViewModel(this);
             PlayerViewModel = new PlayerViewModel(this);
+            APIViewModel = new APIViewModel(this);
+            APIViewModel.FetchCategories();
 
             NewQuestionPackCommand = new DelegateCommand(CreateNewQuestionPack);
-            NewQuestionPackCreateCommand = new DelegateCommand(NewQuestionPackCreate);
-            NewQuestionPackCancelCommand = new DelegateCommand(NewQuestionPackCancel);
+            BtnCreateCommand = new DelegateCommand(Create);
+            BtnCancelCommand = new DelegateCommand(Cancel);
             SetActivePackCommand = new DelegateCommand(SelectActivePackCommand);
             RemoveQuestionPackCommand = new DelegateCommand(RemoveQuestionPack, RemoveQuestionPackActive);
             FullscreenCommand = new DelegateCommand(Fullscreen);
+            ExitCommand = new DelegateCommand(Exit);
+            ImportQuestionsCommand = new DelegateCommand(ImportQuestions);
+            SaveJsonCommand = new DelegateCommand(ActionSaveJson);
 
-            IsWindowNormal = WindowState.Normal;
+            IsWindowNormal = true;
+        }
+
+        private void ActionSaveJson(object obj)
+        {
+            SaveJson();
+        }
+
+        private void ImportQuestions(object obj)
+        {
+            _importQuestionsDialog = new ImportQuestionsDialogService();
+            _importQuestionsDialog.ShowDialog(APIViewModel);
+        }
+
+        private async void StartPacks()
+        {
+            string path = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+            path = Path.Combine(path, "Labb_3");
+            path = Path.Combine(path, "Labb_3.json");
+            Packs = new ObservableCollection<QuestionPackViewModel>();
+
+            if (Path.Exists(path))
+            {
+                await LoadJson(path);
+                ActivePack = Packs.FirstOrDefault();
+            }
+            else
+            {
+                ActivePack = new QuestionPackViewModel(new QuestionPack("Default Question Pack"));
+                Packs.Add(ActivePack);
+            }
+        }
+
+        private async Task LoadJson(string path)
+        {
+            using FileStream openStream = File.OpenRead(path);
+            var QuestionPack = JsonSerializer.Deserialize<QuestionPack[]>(openStream, JsonSerializerOptions());
+
+            foreach (var pack in QuestionPack)
+            {
+                Packs.Add(new QuestionPackViewModel(pack));
+            }
+        }
+
+        private async void Exit(object obj)
+        {
+            await SaveJson();
+            MessageBoxResult result = MessageBox.Show("Are you sure You want to close the application?", "Closing", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+            if (result == MessageBoxResult.Yes) Application.Current.MainWindow.Close();
+        }
+
+        private JsonSerializerOptions JsonSerializerOptions()
+        {
+            var jsonOptions = new JsonSerializerOptions()
+            {
+                IncludeFields = true,
+                IgnoreReadOnlyProperties = false
+            };
+            return jsonOptions;
+        }
+
+        public async Task SaveJson()
+        {            
+            string jsonPacks = JsonSerializer.Serialize(Packs, JsonSerializerOptions());
+            
+            File.WriteAllText(SavePath(), jsonPacks);
+        }
+
+        public string SavePath()
+        {
+            string path = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+
+            path = Path.Combine(path, "Labb_3");
+            Directory.CreateDirectory(path);
+            path = Path.Combine(path, "Labb_3.json");
+
+            return path;
         }
 
         private void Fullscreen(object obj)
         {
-            if (IsWindowNormal == WindowState.Normal) IsWindowNormal = WindowState.Maximized;
-            else if (IsWindowNormal == WindowState.Maximized) IsWindowNormal = WindowState.Normal;
+            if (IsWindowNormal == true) IsWindowNormal = false;
+            else if (IsWindowNormal == false) IsWindowNormal = true;
         }
 
         private bool RemoveQuestionPackActive(object? arg)
@@ -96,6 +187,8 @@ namespace Labb_3.ViewModel
             }
 
             if (Packs.Count > 0) ActivePack = Packs.FirstOrDefault();
+
+            SaveJson();
         }
 
         private void SelectActivePackCommand(object obj)
@@ -103,28 +196,26 @@ namespace Labb_3.ViewModel
             ActivePack = (QuestionPackViewModel)obj;
         }
 
-        private void NewQuestionPackCancel(object obj)
+        private void Cancel(object obj)
         {
-            CreatePackDialog.Close();
+            _createNewPackDialog.CloseDialog();
         }
 
-        private void NewQuestionPackCreate(object obj)
+        private void Create(object obj)
         {
             RemoveQuestionPackCommand.RaiseCanExecuteChanged();
 
             Packs.Add(NewQuestionPack);
             ActivePack = NewQuestionPack;
-            CreatePackDialog.Close();
+            _createNewPackDialog.CloseDialog();
+            SaveJson();
         }
 
         private void CreateNewQuestionPack(object obj)
         {
-            NewQuestionPack = new QuestionPackViewModel(new QuestionPack("Default Question Pack"));            
-            
-            CreatePackDialog = new CreateNewPackDialog();
-            CreatePackDialog.DataContext = this;
-            CreatePackDialog.ShowDialog();
+            NewQuestionPack = new QuestionPackViewModel(new QuestionPack("Default Question Pack"));
 
-        }
+            _createNewPackDialog.ShowDialog(this);
+        }        
     }
 }

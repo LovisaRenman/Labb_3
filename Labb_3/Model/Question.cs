@@ -1,4 +1,6 @@
-﻿namespace Labb_3.Model
+﻿using System.Text.Json.Serialization;
+
+namespace Labb_3.Model
 {
     class Question
     {
@@ -9,8 +11,15 @@
             IncorrectAnswers = new string[3] { incorrectAnswer1, incorrectAnswer2, incorrectAnswer3 };
         }
 
-        public string Query { get; set; }
-        public string CorrectAnswer { get; set; }
-        public string[] IncorrectAnswers { get; set; }        
+        [JsonConstructor] public Question(string query, string correctAnswer, string[] incorrectAnswers)
+        {
+            Query = query;
+            CorrectAnswer = correctAnswer;
+            IncorrectAnswers = incorrectAnswers;
+        }
+
+    public string Query { get; set; }
+            public string CorrectAnswer { get; set; }
+            public string[] IncorrectAnswers { get; set; }        
     }
 }

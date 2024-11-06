@@ -80,7 +80,7 @@ namespace Labb_3.ViewModel
             await MarkCorrectAnswerTask();
 
             Xmark3 = false;
-            ShowNextQuestion(QuestionsCount);
+            ShowNextQuestion(QuestionsCount);            
         }
 
         private async void ClickAnswer2(object obj)
@@ -121,8 +121,8 @@ namespace Labb_3.ViewModel
 
         private void StartPlayMode(object obj)
         {
-            mainWindowViewModel.ConfigurationViewModel.AddButtonCommand.RaiseCanExecuteChanged();
-            mainWindowViewModel.ConfigurationViewModel.RemoveButtonCommand.RaiseCanExecuteChanged();
+            mainWindowViewModel.ConfigurationViewModel.BtnAddCommand.RaiseCanExecuteChanged();
+            mainWindowViewModel.ConfigurationViewModel.BtnRemoveCommand.RaiseCanExecuteChanged();
             mainWindowViewModel.ConfigurationViewModel.BtnOptionsOpenCommand.RaiseCanExecuteChanged();
 
             StartPlayModeCommand.RaiseCanExecuteChanged();
@@ -146,7 +146,9 @@ namespace Labb_3.ViewModel
             CurrentQuestionIndex = 0;
             QuestionsCount = questions.Count();
             
-            ShowNextQuestion(QuestionsCount);           
+            ShowNextQuestion(QuestionsCount);
+
+            mainWindowViewModel.SaveJson();
         }
         private void ShowNextQuestion(int amountOfQuestions)
         {

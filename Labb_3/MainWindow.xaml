@@ -7,15 +7,43 @@
         xmlns:local="clr-namespace:Labb_3" xmlns:view="clr-namespace:Labb_3.View" 
         xmlns:converters="clr-namespace:Labb_3.Converters"
         mc:Ignorable="d"
-        Title="QuizConfigurator" Height="500" Width="800"
-        WindowState="{Binding IsWindowNormal, Mode=OneWay}">
+        Title="QuizConfigurator" Height="500" Width="800" 
+        WindowStartupLocation="CenterScreen"
+        
+        WindowState="{Binding IsWindowNormal, Mode=OneWay, Converter={StaticResource BooleanToWindowStateConverter}}">
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="Converter"/>
-        <converters:BooleanToWindowStateConverter x:Key="BooleanToWindowStateConverter"/>
     </Window.Resources>
     
     <Window.InputBindings>
-        
+        <KeyBinding Key="Insert"
+                    Command="{Binding ConfigurationViewModel.BtnAddCommand}" />
+        <KeyBinding Key="Delete"
+                    Command="{Binding ConfigurationViewModel.BtnRemoveCommand}" />
+        <KeyBinding Key="O"
+                    Modifiers="Ctrl"
+                    Command="{Binding ConfigurationViewModel.BtnOptionsOpenCommand}" />
+        <KeyBinding Key="E"
+                    Modifiers="Ctrl"
+                    Command="{Binding ConfigurationViewModel.StartEditModeCommand}" />
+        <KeyBinding Key="Return"
+                    Modifiers="Alt"
+                    Command="{Binding FullscreenCommand}" />
+        <KeyBinding Key="P"
+                    Modifiers="Ctrl"
+                    Command="{Binding PlayerViewModel.StartPlayModeCommand}"/>
+        <KeyBinding Key="E"
+                    Modifiers="Ctrl"
+                    Command="{Binding ConfigurationViewModel.StartEditModeCommand}"/>
+        <KeyBinding Key="I"
+                    Modifiers="Ctrl"
+                    Command="{Binding ImportQuestionsCommand}"/>
+        <KeyBinding Key="F4"
+                    Modifiers="Alt" 
+                    Command="{Binding ExitCommand}"/>
+        <KeyBinding Key="S"
+                   Modifiers="Ctrl"
+                   Command="{Binding SaveJsonCommand}"/>
     </Window.InputBindings>
     
     <Grid>

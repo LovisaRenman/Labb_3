@@ -1,5 +1,6 @@
 ﻿using Labb_3.Model;
 using System.Collections.ObjectModel;
+using System.Text.Json.Serialization;
 
 namespace Labb_3.ViewModel
 {

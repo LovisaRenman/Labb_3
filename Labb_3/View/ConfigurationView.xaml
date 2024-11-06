@@ -51,7 +51,7 @@
                     Width="20"
                     Height="20"                    
                     Margin="5 0"
-                    Command="{Binding AddButtonCommand}">
+                    Command="{Binding BtnAddCommand}">
                 <Button.Content>
                     <fa:IconBlock Icon="Plus"/>
                 </Button.Content>
@@ -60,7 +60,7 @@
                     Width="20"
                     Height="20"
                     IsEnabled="{Binding IsEnabled}"
-                    Command="{Binding RemoveButtonCommand}">
+                    Command="{Binding BtnRemoveCommand}">
                 <Button.Content>
                     <fa:IconBlock Icon="Minus"/>
                 </Button.Content>
@@ -71,6 +71,7 @@
                  Margin="10"
                  Grid.Row="2"
                  Grid.RowSpan="2"
+                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                  SelectedItem="{Binding ActiveQuestion}"
                  ItemsSource="{Binding ActivePack.Questions}">
             <ListBox.ItemTemplate>
@@ -78,7 +79,8 @@
                     <StackPanel>
                         <TextBlock Text="Question:"
                                    FontWeight="Bold"/>
-                        <TextBlock Text="{Binding Query}"/>
+                        <TextBlock Text="{Binding Query}"
+                                   TextWrapping="Wrap"/>
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
@@ -95,8 +97,9 @@
                  Margin="10 25 10 10"
                  Grid.Column="1"
                  Grid.Row="2"
+                 TextWrapping="Wrap"
                  Text="{Binding ActiveQuestion.Query, UpdateSourceTrigger=PropertyChanged}"
-                 Visibility="{Binding ElementName=stackpanel, Path=Visibility}" />
+                 Visibility="{Binding ElementName=stackpanel, Path=Visibility}"/>
 
         <StackPanel x:Name="stackpanel"
                     Grid.Row="3"

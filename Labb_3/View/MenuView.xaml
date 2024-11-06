@@ -42,14 +42,16 @@
                           Command="{Binding RemoveQuestionPackCommand}"/>
                 <Separator/>
                 <MenuItem x:Name="menuItemImportQuestions"
-                          Header="Import Questions" 
+                          Header="Import Questions"
                           InputGestureText="Ctrl+I"
-                          Icon="{fa:Icon CloudArrowDown}"/>
+                          Icon="{fa:Icon CloudArrowDown}"
+                          Command="{Binding ImportQuestionsCommand}"/>
                 <Separator/>
                 <MenuItem x:Name="menuItemExit"
                           Header="Exit"
                           InputGestureText="Alt+F4"
-                          Icon="{fa:Icon DoorOpen}"/>
+                          Icon="{fa:Icon DoorOpen}"
+                          Command="{Binding ExitCommand}"/>
             </MenuItem>
 
             <MenuItem x:Name="menuItemEdit"
@@ -57,13 +59,13 @@
                 <MenuItem x:Name="menuItemAddQuestion"
                           Header="_Add Question" 
                           InputGestureText="Insert"
-                          Command="{Binding ConfigurationViewModel.AddButtonCommand}"
+                          Command="{Binding ConfigurationViewModel.BtnAddCommand}"
                           Icon="{fa:Icon Plus}"/>
                 <MenuItem x:Name="menuItemRemovQuestion"
                           Header="_Remove Question" 
                           InputGestureText="Delete"
                           Icon="{fa:Icon Minus}"
-                          Command="{Binding ConfigurationViewModel.RemoveButtonCommand}" />
+                          Command="{Binding ConfigurationViewModel.BtnRemoveCommand}" />
                 <MenuItem x:Name="menuItemPackOptions"
                           Header="_Pack Options"
                           InputGestureText="Ctrl+O"

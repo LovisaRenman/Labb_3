@@ -9,8 +9,18 @@
     <Window.Resources>
         <converters:IntToDifficulty x:Key="intToDifficulty"/>
     </Window.Resources>
+
     
     <Grid>
+        <StackPanel VerticalAlignment="Bottom"
+                    HorizontalAlignment="Right"
+                    Orientation="Horizontal"
+                    Margin="0 0 10 95">
+            <Label Content="{Binding ElementName=timeLimitSlider, Path=Value}"
+                   Margin="0 0 -5 0"/>
+            <Label Content="seconds"/>
+        </StackPanel>
+        
         <StackPanel>
             <Label Content="Pack Name"
            FontWeight="Bold"
@@ -29,11 +39,8 @@
             </ComboBox>
             <WrapPanel Orientation="Horizontal"
                Margin="10 10 10 0">
-                <Label Content="Time Limit             "
+                <Label Content="Time Limit"
                FontWeight="Bold"/>
-                <Label Content="{Binding ElementName=timeLimitSlider, Path=Value}"
-               Margin="0 0 -5 0"/>
-                <Label Content="seconds"/>
             </WrapPanel>
             <Slider x:Name="timeLimitSlider"
                     Minimum="5"
@@ -47,10 +54,10 @@
                         Orientation="Horizontal">
                 <Button Content="Cancel" 
                         Margin="10"
-                        Command="{Binding NewQuestionPackCancelCommand}"/>
+                        Command="{Binding BtnCancelCommand}"/>
                 <Button Content="Create" 
                         Margin="10"
-                        Command="{Binding NewQuestionPackCreateCommand}"/>
+                        Command="{Binding BtnCreateCommand}"/>
             </StackPanel>
         </StackPanel>
     </Grid>
