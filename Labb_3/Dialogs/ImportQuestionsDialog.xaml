@@ -23,8 +23,8 @@
             <Label Content="Category"
                    FontWeight="Bold"
                    Margin=" 10 10 10 0"/>
-            <ComboBox SelectedIndex="{Binding ActiveCategory}"
-                      ItemsSource="{Binding Categories}"
+            <ComboBox SelectedIndex="{Binding APIViewModel.ActiveCategory}"
+                      ItemsSource="{Binding APIViewModel.Categories}"
                       ToolTip="Select your category"
                       Margin="10 0 10 10">
                 <ComboBox.ItemTemplate>
@@ -36,7 +36,7 @@
             <Label Content="Difficulty"
                    FontWeight="Bold"
                    Margin="10 10 10 0"/>
-            <ComboBox SelectedIndex="{Binding Difficulty, Converter={StaticResource intToDifficulty}}"
+            <ComboBox SelectedIndex="{Binding APIViewModel.Difficulty, Converter={StaticResource intToDifficulty}}"
                       ToolTip="Select your difficulty"
                       Margin="10 0 10 10">
                 <ComboBoxItem Content="Easy"/>
@@ -54,16 +54,16 @@
                     TickFrequency="1"
                     IsSnapToTickEnabled="True"
                     Margin="10 0 10 0"
-                    Value="{Binding AmountOfQuestions, Mode=TwoWay}"/>
+                    Value="{Binding APIViewModel.AmountOfQuestions, Mode=TwoWay}"/>
 
             <StackPanel HorizontalAlignment="Center"
                         Orientation="Horizontal">
                 <Button Content="Cancel" 
                         Margin="10"
-                        Command="{Binding CancelCommand}"/>
+                        Command="{Binding APIViewModel.CancelCommand}"/>
                 <Button Content="Import" 
                         Margin="10"
-                        Command="{Binding ImportCommand}"/>
+                        Command="{Binding APIViewModel.ImportCommand}"/>
             </StackPanel>
         </StackPanel>
     </Grid>

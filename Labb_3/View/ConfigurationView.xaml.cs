@@ -1,4 +1,6 @@
-﻿using System.Windows.Controls;
+﻿using Labb_3.Dialogs;
+using System.Windows.Controls;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
 namespace Labb_3.View
 {
@@ -9,6 +11,5 @@ namespace Labb_3.View
             InitializeComponent();
         }
 
-        
     }
 }

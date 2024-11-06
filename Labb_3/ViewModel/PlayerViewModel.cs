@@ -11,6 +11,7 @@ namespace Labb_3.ViewModel
         private readonly MainWindowViewModel? mainWindowViewModel;
         public QuestionPackViewModel? ActivePack => mainWindowViewModel.ActivePack;
         private List<Question> ShuffledQuestions { get; set; }
+        private Random rnd = new Random();
 
         private bool _visibilityModePlayerView;
         public bool VisibilityModePlayerView
@@ -123,7 +124,6 @@ namespace Labb_3.ViewModel
 
         private void StartPlayMode(object obj)
         {
-            Random rnd = new Random();
             ShuffledQuestions = ActivePack.Questions.OrderBy(a => rnd.Next()).ToList();
 
             mainWindowViewModel.ConfigurationViewModel.BtnAddCommand.RaiseCanExecuteChanged();
@@ -180,7 +180,6 @@ namespace Labb_3.ViewModel
                 ShuffledQuestions[CurrentQuestionIndex].IncorrectAnswers[2]
             };
 
-            Random rnd = new Random();
             AnswerOrderByRandom = tempList.OrderBy(a => rnd.Next()).ToList();
 
             TimerTick = ActivePack.TimeLimitInSeconds;

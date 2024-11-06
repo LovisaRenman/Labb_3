@@ -23,6 +23,8 @@ namespace Labb_3.ViewModel
         public DelegateCommand ImportCommand { get; }
         public DelegateCommand CancelCommand { get; }
 
+        public event EventHandler RequestCloseDialogImportQuestions;
+
         private int _activeCategory;
         public int ActiveCategory
         {
@@ -69,7 +71,7 @@ namespace Labb_3.ViewModel
 
         private void Cancel(object obj)
         {
-            mainWindowViewModel._importQuestionsDialog?.CloseDialog();
+            RequestCloseDialogImportQuestions.Invoke(mainWindowViewModel, EventArgs.Empty);
         }
 
         private async void Import(object obj)
@@ -101,11 +103,11 @@ namespace Labb_3.ViewModel
                 {
                     for (int i = 0; i < result.results.Length; i++)
                     {
-                        WebUtility.HtmlDecode(result.results[i].question);
-                        WebUtility.HtmlDecode(result.results[i].correct_answer);
-                        WebUtility.HtmlDecode(result.results[i].incorrect_answers[0]);
-                        WebUtility.HtmlDecode(result.results[i].incorrect_answers[1]);
-                        WebUtility.HtmlDecode(result.results[i].incorrect_answers[2]);
+                        result.results[i].question = WebUtility.HtmlDecode(result.results[i].question);
+                        result.results[i].correct_answer = WebUtility.HtmlDecode(result.results[i].correct_answer);
+                        result.results[i].incorrect_answers[0] = WebUtility.HtmlDecode(result.results[i].incorrect_answers[0]);
+                        result.results[i].incorrect_answers[1] = WebUtility.HtmlDecode(result.results[i].incorrect_answers[1]);
+                        result.results[i].incorrect_answers[2] = WebUtility.HtmlDecode(result.results[i].incorrect_answers[2]);
 
                         mainWindowViewModel.ActivePack.Questions.Add(new Question(
                             result.results[i].question, 
@@ -117,9 +119,9 @@ namespace Labb_3.ViewModel
                 }
                 else
                 {
-                    MessageBox.Show("There was a problem loading Questions from Open Trivia", "Try again", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("There was a problem loading Questions from Open Trivia", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
-                mainWindowViewModel._importQuestionsDialog?.CloseDialog();
+                RequestCloseDialogImportQuestions.Invoke(mainWindowViewModel, EventArgs.Empty);
             }
         }
 
@@ -142,8 +144,8 @@ namespace Labb_3.ViewModel
             }
             catch (HttpRequestException e)
             {
-                Console.WriteLine("\nException Caught!");
-                Console.WriteLine("Message :{0} ", e.Message);
+                MessageBox.Show("There was a problem loading Categories from Open Trivia", "Error", 
+                    MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 

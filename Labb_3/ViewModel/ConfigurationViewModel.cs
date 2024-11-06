@@ -1,4 +1,5 @@
 ﻿using Labb_3.Command;
+using Labb_3.Dialogs;
 using Labb_3.Model;
 using System.Windows;
 
@@ -12,8 +13,7 @@ namespace Labb_3.ViewModel
         public DelegateCommand BtnOptionsOpenCommand { get; }
         public DelegateCommand StartEditModeCommand { get; }
 
-        public IDialogService _dialogService = new PackOptionsDialogService();
-
+        public event EventHandler RequestShowDialogPackageOptions;
         public QuestionPackViewModel? ActivePack => mainWindowViewModel.ActivePack;
 
         private bool _visibilityModeConfigurationView;
@@ -74,8 +74,10 @@ namespace Labb_3.ViewModel
         }
 
         private void Optionsbutton(object obj)
-        {            
-            _dialogService.ShowDialog(mainWindowViewModel);
+        {
+            RequestShowDialogPackageOptions.Invoke(this, EventArgs.Empty);
+            mainWindowViewModel.SaveJson();
+            
         }
 
         private bool RemoveButtonActive(object? arg)

@@ -50,8 +50,11 @@ namespace Labb_3.ViewModel
             }
         }
 
-        public IDialogService _createNewPackDialog = new CreateNewPackDialogService();
-        public IDialogService _importQuestionsDialog ;
+        public event EventHandler RequestShowDialogImportQuestions;
+
+        public event EventHandler RequestShowDialogCreateNewPack;
+        public event EventHandler RequestCloseDialogCreateNewPack;
+
 
         private bool _windowState;
 
@@ -94,8 +97,7 @@ namespace Labb_3.ViewModel
 
         private void ImportQuestions(object obj)
         {
-            _importQuestionsDialog = new ImportQuestionsDialogService();
-            _importQuestionsDialog.ShowDialog(APIViewModel);
+            RequestShowDialogImportQuestions.Invoke(this, EventArgs.Empty);
         }
 
         private async void StartPacks()
@@ -124,7 +126,7 @@ namespace Labb_3.ViewModel
 
             foreach (var pack in QuestionPack)
             {
-                Packs.Add(new QuestionPackViewModel(pack));
+                if (pack != null) Packs.Add(new QuestionPackViewModel(pack));
             }
         }
 
@@ -197,8 +199,8 @@ namespace Labb_3.ViewModel
         }
 
         private void Cancel(object obj)
-        {
-            _createNewPackDialog.CloseDialog();
+        {            
+            RequestCloseDialogCreateNewPack.Invoke(this, EventArgs.Empty);
         }
 
         private void Create(object obj)
@@ -207,15 +209,13 @@ namespace Labb_3.ViewModel
 
             Packs.Add(NewQuestionPack);
             ActivePack = NewQuestionPack;
-            _createNewPackDialog.CloseDialog();
+            RequestCloseDialogCreateNewPack.Invoke(this, EventArgs.Empty);
             SaveJson();
         }
 
         private void CreateNewQuestionPack(object obj)
         {
-            NewQuestionPack = new QuestionPackViewModel(new QuestionPack("Default Question Pack"));
-
-            _createNewPackDialog.ShowDialog(this);
+            RequestShowDialogCreateNewPack.Invoke(this, EventArgs.Empty);
         }        
     }
 }
