@@ -1,5 +1,6 @@
 ﻿using Labb_3.Command;
 using Labb_3.Model;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Windows.Threading;
 
@@ -9,6 +10,7 @@ namespace Labb_3.ViewModel
     {
         private readonly MainWindowViewModel? mainWindowViewModel;
         public QuestionPackViewModel? ActivePack => mainWindowViewModel.ActivePack;
+        private List<Question> ShuffledQuestions { get; set; }
 
         private bool _visibilityModePlayerView;
         public bool VisibilityModePlayerView
@@ -121,6 +123,9 @@ namespace Labb_3.ViewModel
 
         private void StartPlayMode(object obj)
         {
+            Random rnd = new Random();
+            ShuffledQuestions = ActivePack.Questions.OrderBy(a => rnd.Next()).ToList();
+
             mainWindowViewModel.ConfigurationViewModel.BtnAddCommand.RaiseCanExecuteChanged();
             mainWindowViewModel.ConfigurationViewModel.BtnRemoveCommand.RaiseCanExecuteChanged();
             mainWindowViewModel.ConfigurationViewModel.BtnOptionsOpenCommand.RaiseCanExecuteChanged();
@@ -164,15 +169,15 @@ namespace Labb_3.ViewModel
        
         private void ActiveQuestionProcessing()
         {
-            Query = ActivePack.Questions[CurrentQuestionIndex].Query;
-            correctAnswer = ActivePack.Questions[CurrentQuestionIndex].CorrectAnswer;
+            Query = ShuffledQuestions[CurrentQuestionIndex].Query;
+            correctAnswer = ShuffledQuestions[CurrentQuestionIndex].CorrectAnswer;
 
             List<string> tempList = new List<string>
             {
-                ActivePack.Questions[CurrentQuestionIndex].CorrectAnswer, 
-                ActivePack.Questions[CurrentQuestionIndex].IncorrectAnswers[0],
-                ActivePack.Questions[CurrentQuestionIndex].IncorrectAnswers[1],
-                ActivePack.Questions[CurrentQuestionIndex].IncorrectAnswers[2]
+                ShuffledQuestions[CurrentQuestionIndex].CorrectAnswer,
+                ShuffledQuestions[CurrentQuestionIndex].IncorrectAnswers[0],
+                ShuffledQuestions[CurrentQuestionIndex].IncorrectAnswers[1],
+                ShuffledQuestions[CurrentQuestionIndex].IncorrectAnswers[2]
             };
 
             Random rnd = new Random();

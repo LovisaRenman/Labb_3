@@ -107,20 +107,20 @@
                     Visibility="{Binding IsEnabled, Converter={StaticResource BoolToVisibility}}">
 
             <Label Content="Correct Answer:"
-                    Margin="10 10 10 0" 
-                    FontWeight="Bold"/>
+                   Margin="10 10 10 0" 
+                   FontWeight="Bold"/>
 
             <TextBox x:Name="tbCorrectAnswer"
                      Text="{Binding ActiveQuestion.CorrectAnswer, UpdateSourceTrigger=PropertyChanged}"
                      Margin="10 0"/>
 
             <Label Content="First Incorrect Answer"
-                    Margin="10 10 10 0" 
-                    FontWeight="Bold"/>
+                   Margin="10 10 10 0" 
+                   FontWeight="Bold"/>
 
             <TextBox x:Name="tb1ndInncorrectAnswear"
-                     Text="{Binding ActiveQuestion.IncorrectAnswers[0], UpdateSourceTrigger=PropertyChanged}"
-                     Margin="10 0"/>
+                    Text="{Binding ActiveQuestion.IncorrectAnswers[0], UpdateSourceTrigger=PropertyChanged}"
+                    Margin="10 0"/>
 
             <Label Content="Second Incorrect Answer;"
                    Margin="10 10 10 0" 

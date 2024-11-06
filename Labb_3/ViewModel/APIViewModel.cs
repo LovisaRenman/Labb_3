@@ -3,6 +3,7 @@ using Labb_3.Command;
 using Labb_3.Model;
 using Newtonsoft.Json;
 using System.Collections.ObjectModel;
+using System.Net;
 using System.Net.Http;
 using System.Security.Policy;
 using System.Text.Json;
@@ -100,6 +101,12 @@ namespace Labb_3.ViewModel
                 {
                     for (int i = 0; i < result.results.Length; i++)
                     {
+                        WebUtility.HtmlDecode(result.results[i].question);
+                        WebUtility.HtmlDecode(result.results[i].correct_answer);
+                        WebUtility.HtmlDecode(result.results[i].incorrect_answers[0]);
+                        WebUtility.HtmlDecode(result.results[i].incorrect_answers[1]);
+                        WebUtility.HtmlDecode(result.results[i].incorrect_answers[2]);
+
                         mainWindowViewModel.ActivePack.Questions.Add(new Question(
                             result.results[i].question, 
                             result.results[i].correct_answer, 

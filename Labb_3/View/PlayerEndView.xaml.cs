@@ -15,9 +15,6 @@ using System.Windows.Shapes;
 
 namespace Labb_3.View
 {
-    /// <summary>
-    /// Interaction logic for PlayerEndView.xaml
-    /// </summary>
     public partial class PlayerEndView : UserControl
     {
         public PlayerEndView()
