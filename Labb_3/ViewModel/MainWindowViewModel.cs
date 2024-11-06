@@ -4,7 +4,6 @@ using Labb_3.Model;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Text.Json;
-using System.Windows;
 
 namespace Labb_3.ViewModel
 {
@@ -55,6 +54,9 @@ namespace Labb_3.ViewModel
         public event EventHandler RequestShowDialogCreateNewPack;
         public event EventHandler RequestCloseDialogCreateNewPack;
 
+        public event EventHandler RequestShowMessageBoxRemove;
+        public event EventHandler RequestShowMessageBoxCloseApplication;
+
 
         private bool _windowState;
 
@@ -84,10 +86,15 @@ namespace Labb_3.ViewModel
             RemoveQuestionPackCommand = new DelegateCommand(RemoveQuestionPack, RemoveQuestionPackActive);
             FullscreenCommand = new DelegateCommand(Fullscreen);
             ExitCommand = new DelegateCommand(Exit);
-            ImportQuestionsCommand = new DelegateCommand(ImportQuestions);
+            ImportQuestionsCommand = new DelegateCommand(ImportQuestions, ImportQuestionsActive);
             SaveJsonCommand = new DelegateCommand(ActionSaveJson);
 
             IsWindowNormal = true;
+        }
+
+        private bool ImportQuestionsActive(object? arg)
+        {
+            return APIViewModel.hasInternet;
         }
 
         private void ActionSaveJson(object obj)
@@ -133,9 +140,7 @@ namespace Labb_3.ViewModel
         private async void Exit(object obj)
         {
             await SaveJson();
-            MessageBoxResult result = MessageBox.Show("Are you sure You want to close the application?", "Closing", MessageBoxButton.YesNo, MessageBoxImage.Question);
-
-            if (result == MessageBoxResult.Yes) Application.Current.MainWindow.Close();
+            RequestShowMessageBoxCloseApplication.Invoke(this, EventArgs.Empty);
         }
 
         private JsonSerializerOptions JsonSerializerOptions()
@@ -180,13 +185,7 @@ namespace Labb_3.ViewModel
 
         private void RemoveQuestionPack(object obj)
         {
-            var messageBoxResult = MessageBox.Show("Are you sure you want to Delete this Pack", "Are You Sure", MessageBoxButton.YesNo, MessageBoxImage.Warning);
-
-            if (messageBoxResult == MessageBoxResult.Yes)
-            {
-                Packs.Remove(ActivePack);
-                RemoveQuestionPackCommand.RaiseCanExecuteChanged();
-            }
+            RequestShowMessageBoxRemove.Invoke(this, EventArgs.Empty);            
 
             if (Packs.Count > 0) ActivePack = Packs.FirstOrDefault();
 
@@ -215,6 +214,8 @@ namespace Labb_3.ViewModel
 
         private void CreateNewQuestionPack(object obj)
         {
+            NewQuestionPack = new QuestionPackViewModel(new QuestionPack("Default Question Pack"));
+
             RequestShowDialogCreateNewPack.Invoke(this, EventArgs.Empty);
         }        
     }

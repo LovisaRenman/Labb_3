@@ -59,29 +59,50 @@ namespace Labb_3.ViewModel
                 RaisePropertyChanged();
             }
         }
+
+        private bool IsClickAnswerActive;
         public PlayerViewModel(MainWindowViewModel? mainWindowViewModel)
         {
             this.mainWindowViewModel = mainWindowViewModel;
             VisibilityModePlayerView = false;
             VisibilityModePlayerEndView = false;
             CorrectAnswers = 0;
+            IsClickAnswerActive = true;
 
             StartPlayModeCommand = new DelegateCommand(StartPlayMode, StartPlayModeActive);
 
-            ClickButtonCommand0 = new DelegateCommand(ClickAnswer0);
-            ClickButtonCommand1 = new DelegateCommand(ClickAnswer1);
-            ClickButtonCommand2 = new DelegateCommand(ClickAnswer2);
-            ClickButtonCommand3 = new DelegateCommand(ClickAnswer3);
+            ClickButtonCommand0 = new DelegateCommand(ClickAnswer0, IsActive);
+            ClickButtonCommand1 = new DelegateCommand(ClickAnswer1, IsActive);
+            ClickButtonCommand2 = new DelegateCommand(ClickAnswer2, IsActive);
+            ClickButtonCommand3 = new DelegateCommand(ClickAnswer3, IsActive);
+        }
+
+        private bool IsActive(object? arg)
+        {
+            return IsClickAnswerActive;
+        }
+
+        private void ClickButtonCommandRaise()
+        {
+            ClickButtonCommand0.RaiseCanExecuteChanged();
+            ClickButtonCommand1.RaiseCanExecuteChanged();
+            ClickButtonCommand2.RaiseCanExecuteChanged();
+            ClickButtonCommand3.RaiseCanExecuteChanged();
         }
 
         private async void ClickAnswer3(object obj)
         {
             Timer.Stop();
+            IsClickAnswerActive = false;
+            ClickButtonCommandRaise();
+
             IndexOfCorrectAnswer = AnswerOrderByRandom.IndexOf(correctAnswer);
             if (IndexOfCorrectAnswer != 3) Xmark3 = true;
             else CorrectAnswers++;
             await MarkCorrectAnswerTask();
 
+            IsClickAnswerActive = true;
+            ClickButtonCommandRaise();
             Xmark3 = false;
             ShowNextQuestion(QuestionsCount);            
         }
@@ -90,10 +111,15 @@ namespace Labb_3.ViewModel
         {
             IndexOfCorrectAnswer = AnswerOrderByRandom.IndexOf(correctAnswer);
             Timer.Stop();
+            IsClickAnswerActive = false;
+            ClickButtonCommandRaise();
+
             if (IndexOfCorrectAnswer != 2) Xmark2 = true;
             else CorrectAnswers++;
             await MarkCorrectAnswerTask();
 
+            IsClickAnswerActive = true;
+            ClickButtonCommandRaise();
             Xmark2 = false;
             ShowNextQuestion(QuestionsCount);
         }
@@ -102,10 +128,15 @@ namespace Labb_3.ViewModel
         {
             IndexOfCorrectAnswer = AnswerOrderByRandom.IndexOf(correctAnswer);
             Timer.Stop();
+            IsClickAnswerActive = false;
+            ClickButtonCommandRaise();
+
             if (IndexOfCorrectAnswer != 1) Xmark1 = true;
             else CorrectAnswers++;
             await MarkCorrectAnswerTask();
 
+            IsClickAnswerActive = true;
+            ClickButtonCommandRaise();
             Xmark1 = false;
             ShowNextQuestion(QuestionsCount);
         }
@@ -114,10 +145,15 @@ namespace Labb_3.ViewModel
         {
             IndexOfCorrectAnswer = AnswerOrderByRandom.IndexOf(correctAnswer);
             Timer.Stop();
+            IsClickAnswerActive = false;
+            ClickButtonCommandRaise();
+
             if (IndexOfCorrectAnswer != 0) Xmark0 = true;
             else CorrectAnswers++;
             await MarkCorrectAnswerTask();
 
+            IsClickAnswerActive = true;
+            ClickButtonCommandRaise();
             Xmark0 = false;
             ShowNextQuestion(QuestionsCount);
         }

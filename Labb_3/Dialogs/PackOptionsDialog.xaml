@@ -12,7 +12,6 @@
     </Window.Resources>
 
     <Grid>
-
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
@@ -31,12 +30,12 @@
             <Label Content="Pack Name"
                    FontWeight="Bold"
                    Margin=" 10 10 10 0"/>
-            <TextBox Text="{Binding ActivePack.Name, Mode=TwoWay}"
+            <TextBox Text="{Binding ConfigurationViewModel.ActivePack.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                      Margin="10 0 10 10"/>
             <Label Content="Difficulty"
                    FontWeight="Bold"
                    Margin="10 10 10 0"/>
-            <ComboBox SelectedIndex="{Binding ActivePack.Difficulty, Mode=TwoWay, Converter={StaticResource intToDifficulty}}"
+            <ComboBox SelectedIndex="{Binding ConfigurationViewModel.ActivePack.Difficulty, Mode=TwoWay, Converter={StaticResource intToDifficulty}}"
                       ToolTip="Select your difficulty"
                       Margin="10 0 10 10">
                 <ComboBoxItem Content="Easy"/>
@@ -52,7 +51,7 @@
                     TickFrequency="1"
                     IsSnapToTickEnabled="True"
                     Margin="10 0 10 10"
-                    Value="{Binding ActivePack.TimeLimitInSeconds, Mode=TwoWay}"/>
+                    Value="{Binding ConfigurationViewModel.ActivePack.TimeLimitInSeconds, Mode=TwoWay}"/>
         </StackPanel>
     </Grid>
 </Window>

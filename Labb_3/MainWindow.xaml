@@ -9,7 +9,8 @@
         mc:Ignorable="d"
         Title="QuizConfigurator" Height="500" Width="800" 
         WindowStartupLocation="CenterScreen"
-        
+        MinHeight="500"
+        MinWidth="800"
         WindowState="{Binding IsWindowNormal, Mode=OneWay, Converter={StaticResource BooleanToWindowStateConverter}}">
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="Converter"/>

@@ -25,6 +25,13 @@ namespace Labb_3.ViewModel
 
         public event EventHandler RequestCloseDialogImportQuestions;
 
+        public event EventHandler RequestShowMessageBoxGettingQuestions;
+        public event EventHandler RequestCloseMessageBoxGettingQuestions;
+
+        public event EventHandler RequestShowMessageBoxDoneGettingQuestions;
+        public event EventHandler RequestShowMessageBoxProblemLoading;
+        public event EventHandler RequestShowMessageBoxWaitClient;
+
         private int _activeCategory;
         public int ActiveCategory
         {
@@ -59,6 +66,7 @@ namespace Labb_3.ViewModel
             }
         }
 
+        public bool hasInternet;
 
         public APIViewModel(MainWindowViewModel? mainWindowViewModel)
         {
@@ -89,12 +97,14 @@ namespace Labb_3.ViewModel
 
                 try
                 {
-                    MessageBox.Show("Getting Questions");
-                    response = await client.GetStringAsync(url);                    
+                    RequestShowMessageBoxGettingQuestions.Invoke(this, EventArgs.Empty);
+                    response = await client.GetStringAsync(url);
+                    RequestCloseMessageBoxGettingQuestions.Invoke(this, EventArgs.Empty);
+                    RequestShowMessageBoxDoneGettingQuestions.Invoke(this, EventArgs.Empty);
                 }
                 catch
                 {
-                    MessageBox.Show("Wait for client to answer", "Try again", MessageBoxButton.OK, MessageBoxImage.Error);
+                    RequestShowMessageBoxWaitClient.Invoke(this, EventArgs.Empty);
                 }
 
                 var result = JsonConvert.DeserializeObject<QuestionTriviaResponse>(response);
@@ -119,11 +129,12 @@ namespace Labb_3.ViewModel
                 }
                 else
                 {
-                    MessageBox.Show("There was a problem loading Questions from Open Trivia", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    RequestShowMessageBoxProblemLoading.Invoke(this, EventArgs.Empty);
                 }
                 RequestCloseDialogImportQuestions.Invoke(mainWindowViewModel, EventArgs.Empty);
             }
         }
+
 
         public async Task FetchCategories()
         {
@@ -141,11 +152,15 @@ namespace Labb_3.ViewModel
                         Categories.Add(category);
                     }
                 }
+                hasInternet = true;
+                mainWindowViewModel.ImportQuestionsCommand.RaiseCanExecuteChanged();
             }
             catch (HttpRequestException e)
             {
-                MessageBox.Show("There was a problem loading Categories from Open Trivia", "Error", 
-                    MessageBoxButton.OK, MessageBoxImage.Error);
+                RequestShowMessageBoxProblemLoading.Invoke(this, EventArgs.Empty);
+
+                hasInternet = false;
+                mainWindowViewModel.ImportQuestionsCommand.RaiseCanExecuteChanged();
             }
         }
 

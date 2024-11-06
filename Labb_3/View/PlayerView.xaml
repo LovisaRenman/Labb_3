@@ -35,21 +35,41 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Button Margin="20"
-                    Content="{Binding AnswerOrderByRandom[0]}"
-                    Command="{Binding ClickButtonCommand0}"/>
+                    Command="{Binding ClickButtonCommand0}">
+                <Button.Content>
+                    <TextBlock Text="{Binding AnswerOrderByRandom[0]}" 
+                               TextWrapping="Wrap"
+                               Padding="3"/>
+                </Button.Content>
+            </Button>
             <Button Margin="20"
                     Grid.Column="1"
-                    Content="{Binding AnswerOrderByRandom[1]}"
-                    Command="{Binding ClickButtonCommand1}"/>
+                    Command="{Binding ClickButtonCommand1}">
+                <Button.Content>
+                    <TextBlock Text="{Binding AnswerOrderByRandom[1]}" 
+                               TextWrapping="Wrap"
+                               Padding="3"/>
+                </Button.Content>
+            </Button>
             <Button Margin="20"
                     Grid.Row="1"
-                    Content="{Binding AnswerOrderByRandom[2]}"
-                    Command="{Binding ClickButtonCommand2}"/>
+                    Command="{Binding ClickButtonCommand2}">
+                <Button.Content>
+                    <TextBlock Text="{Binding AnswerOrderByRandom[2]}" 
+                               TextWrapping="Wrap"
+                               Padding="3"/>
+                </Button.Content>
+            </Button>
             <Button Margin="20"
                     Grid.Row="1"
                     Grid.Column="1"
-                    Content="{Binding AnswerOrderByRandom[3]}"
-                    Command="{Binding ClickButtonCommand3}"/>
+                    Command="{Binding ClickButtonCommand3}">
+                <Button.Content>
+                    <TextBlock Text="{Binding AnswerOrderByRandom[3]}" 
+                               TextWrapping="Wrap"
+                               Padding="3"/>
+                </Button.Content>
+            </Button>
         </Grid>
 
         <StackPanel VerticalAlignment="Center"
