@@ -154,7 +154,7 @@ namespace Labb_3.ViewModel
         }
 
         public async Task SaveJson()
-        {            
+        {
             string jsonPacks = JsonSerializer.Serialize(Packs, JsonSerializerOptions());
             
             File.WriteAllText(SavePath(), jsonPacks);

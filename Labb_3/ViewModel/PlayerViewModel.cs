@@ -161,6 +161,7 @@ namespace Labb_3.ViewModel
         private void StartPlayMode(object obj)
         {
             ShuffledQuestions = ActivePack.Questions.OrderBy(a => rnd.Next()).ToList();
+            CorrectAnswers = 0;
 
             mainWindowViewModel.ConfigurationViewModel.BtnAddCommand.RaiseCanExecuteChanged();
             mainWindowViewModel.ConfigurationViewModel.BtnRemoveCommand.RaiseCanExecuteChanged();

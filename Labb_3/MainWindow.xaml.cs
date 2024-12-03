@@ -28,6 +28,8 @@ namespace Labb_3
             mainWindowViewModel.APIViewModel.RequestCloseMessageBoxGettingQuestions += CloseGettingQuestions;
             mainWindowViewModel.APIViewModel.RequestShowMessageBoxProblemLoading += ProblemLoading;
             mainWindowViewModel.APIViewModel.RequestShowMessageBoxWaitClient += WaitClient;
+
+            mainWindowViewModel.RequestShowMessageBoxCloseApplication += CloseApplication;
         }
 
 
